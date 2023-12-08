@@ -1,0 +1,58 @@
+h1{
+    color: rgb(175, 43, 43);
+    font-family: 'Amatic SC', sans-serif;
+    font-size:5rem;
+
+}
+
+nav {
+    background-color: rgb(77, 18, 18);
+}
+ 
+h4 {
+    color: rgb(175, 43, 43);
+}
+
+body {
+    background-image: url("images/sand.jpg");
+    font-family: 'Caveat', cursive;
+font-family: 'Libre Baskerville', serif;
+}
+
+
+.content {
+    margin-top: 70px;
+}
+
+.card-coctail {
+    margin-bottom: 50px;
+
+}
+.left {
+    float: left;
+    width: 50%;
+  }
+  
+img {
+    width: 350px;
+    height: 350px;
+}
+
+.right {
+    float: right;
+    width: 50%;
+}
+
+.instruction-card {
+    float: left;
+}
+
+ul {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+p {
+    font-size: 1.2em;
+}
+
