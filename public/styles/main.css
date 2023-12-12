@@ -14,14 +14,8 @@ h4 {
 }
 
 body {
-    background-image: url("images/sand.jpg");
     font-family: 'Caveat', cursive;
 font-family: 'Libre Baskerville', serif;
-}
-
-
-.content {
-    margin-top: 70px;
 }
 
 .card-coctail {
@@ -34,8 +28,8 @@ font-family: 'Libre Baskerville', serif;
   }
   
 img {
-    width: 350px;
-    height: 350px;
+    width: 90%;
+    height: auto;
 }
 
 .right {
@@ -56,3 +50,8 @@ p {
     font-size: 1.2em;
 }
 
+.coct-title {
+    color: rgb(175, 43, 43);
+    font-family: 'Amatic SC', sans-serif;
+    font-size: 3rem;
+}

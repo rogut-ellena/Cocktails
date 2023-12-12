@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <title>Coctails</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat&family=Libre+Baskerville&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Libre+Baskerville&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/main.css">
@@ -20,47 +20,68 @@
 
 <body>
 
-    <nav class="navbar navbar-expand navbar-light  d-flex justify-content-center fixed-top">
-        <a class="navbar-brand  text-white" href="#"></a>
-        <div class="d-flex justify-content-center">
-            <form class="d-inline-flex" action="/submit" method="post">
-                <input class="form-control mr-sm-2" type="text" name="searchName" placeholder="Find coctails by name"
-                    aria-label="Search">
-                <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-        <div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
-                    checked>
-                <label class="form-check-label" for="exampleRadios1">
-                    Default radio
-                </label>
+    <nav class="navbar navbar-expand navbar-light  sticky-top">
+        <a class="navbar-brand  text-white ms-4" href="/">Home</a>
+        <div class="row justify-content-between ms-5 w-75" >
+            <div class="col-md-4">
+                <form class="d-inline-flex " action="/byName" method="post">
+                    <input class="form-control mr-sm-2" type="text" name="searchName"
+                        placeholder="Find coctails by name" aria-label="Search">
+                    <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button>
+                </form>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                <label class="form-check-label" for="exampleRadios2">
-                    Second default radio
-                </label>
+            <div class="col-md-4 ">
+                <button class="btn btn-outline-warning " type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filter by alcoholic</button>
             </div>
+
         </div>
 
     </nav>
 
-    <div class="container content">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasRightLabel">Filter by alcoholic:</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form action="/filter" method="post">
+                <div class="form-check">
+                    <input class="form-check-input" value="Alcoholic" type="radio" name="check" id="flexRadioDefault1">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        Alcoholic
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" value="Non_Alcoholic" type="radio" name="check"
+                        id="flexRadioDefault2" checked>
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        Non Alcoholic
+                    </label>
+                </div>
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+
+
+
+
+        </div>
+    </div>
+    <div class="container ">
 
         <% if(locals.re){%>
-            <div class="container row border border-white card-coctail p-5">
+            <div class="container row border border-white card-coctail p-4">
+
                 
-                <h1 class="p-2" style="text-align: center;">
-                    <%= re.strDrink %>
-                </h1>
                 <div class="col-lg-6">
-                    <h4 class="p-2" >Ingredients:</h4>
-                    <ul>                        
+                    <h1 class="p-2" >
+                        <%= re.strDrink %>
+                    </h1>
+                    <h4 class="p-2">Ingredients:</h4>
+                    <ul>
                         <% for(var i=0; i < ingredients.length; i++){ %>
                             <% //console.log(ingredients) %>
-                            
+
                                 <li class="">
                                     <%= ingredients[i].measure %>of <%= ingredients[i].ingredient %>
                                 </li>
@@ -68,72 +89,126 @@
 
                                 <% } %>
                     </ul>
-                    <h4 class="p-2" >Instructions:</h4>
+                    <h4 class="p-2">Instructions:</h4>
                     <p class="p-2">
                         <%= re.strInstructions %>
                     </p>
                 </div>
                 <div class="col-lg-6 d-flex justify-content-center align-items-center">
-                    <img src="<%= re.strDrinkThumb %>" alt="<%= re.strDrink %>"
-                    style="border-radius: 50%; ">
+                    <img src="<%= re.strDrinkThumb %>" alt="<%= re.strDrink %>" style="border-radius: 50%; ">
                 </div>
-                
+
 
             </div>
 
             <%} else if (locals.coctailsByName) {%>
 
-
-                
-                    <% coctailsByName.forEach(element=> {%>
-                        
-
-                        <div class="container card-coctail row border border-white p-5">
+                <% coctailsByName.forEach(element=> {%>
+                    <div class="container card-coctail row border border-white p-5">
 
 
-                            <div col-12>
-                                <h1 class="p-2" style="text-align: center;">
-                                    <%= element.strDrink %>
-                                </h1>
-                            </div>
+                        <div col-12>
+                            <h1 class="p-2" style="text-align: center;">
+                                <%= element.strDrink %>
+                            </h1>
+                        </div>
 
-                            <div class="col-lg-6 col-xl-4 p-4">
-                                <h4 class="p-2" >Ingredients:</h4>
-                                <ul class=" ">
-
-                                    <% for(var i=0; i < ingredients.length; i++){ %>
-                                        <% //console.log(ingredients) %>
-                                            <li >
-                                                <%= ingredients[i].measure %>of <%= ingredients[i].ingredient %>
-                                            </li>
-                                            <% } %>
-                                </ul>
-                            </div>
-
-                            <div class="p-2 col-lg-6 col-xl-4 d-flex justify-content-center">
-                                <img src="<%= element.strDrinkThumb %>" alt="<%= element.strDrink %>"
-                                    style="border-radius: 50%; ">
-                            </div>
-                            <div class="col-lg-12 col-xl-4 py-2 ps-4 ">
-                                <h4 class="py-2 ps-4">Instructions:</h4>
-                                <p class="ps-4">
-                                    <%= element.strInstructions %>
-                                </p>
-
-                            </div>
+                        <div class="col-lg-6 col-xl-4 p-4">
+                            <h4 class="p-2">Ingredients:</h4>
+                            <ul class=" ">
 
 
+                                <% verify(element.strMeasure1, element.strIngredient1); %>
+                                    <% verify(element.strMeasure2, element.strIngredient2); %>
+                                        <% verify(element.strMeasure3, element.strIngredient3); %>
+                                            <% verify(element.strMeasure4, element.strIngredient4); %>
+                                                <% verify(element.strMeasure5, element.strIngredient5); %>
+                                                    <% verify(element.strMeasure6, element.strIngredient6); %>
+                                                        <% verify(element.strMeasure7, element.strIngredient7); %>
+                                                            <% verify(element.strMeasure8, element.strIngredient8); %>
+                                                                <% verify(element.strMeasure9, element.strIngredient9);
+                                                                    %>
+                                                                    <% verify(element.strMeasure10,
+                                                                        element.strIngredient10); %>
+                                                                        <% verify(element.strMeasure11,
+                                                                            element.strIngredient11); %>
+                                                                            <% verify(element.strMeasure12,
+                                                                                element.strIngredient12); %>
+                                                                                <% verify(element.strMeasure13,
+                                                                                    element.strIngredient13); %>
+                                                                                    <% verify(element.strMeasure14,
+                                                                                        element.strIngredient14); %>
+                                                                                        <% verify(element.strMeasure15,
+                                                                                            element.strIngredient15); %>
 
+                                                                                            <%function verify(meas,
+                                                                                                ingr) { %>
+                                                                                                <% if (meas !=null &&
+                                                                                                    ingr !=null){ %>
+                                                                                                    <li>
+                                                                                                        <%= meas %> of
+                                                                                                            <%= ingr %>
+                                                                                                    </li>
+                                                                                                    <%} %>
+
+
+                                                                                                        <% } %>
+
+
+
+                            </ul>
+                        </div>
+
+                        <div class="p-2 col-lg-6 col-xl-4 d-flex justify-content-center">
+                            <img src="<%= element.strDrinkThumb %>" alt="<%= element.strDrink %>"
+                                style="border-radius: 50%; ">
+                        </div>
+                        <div class="col-lg-12 col-xl-4 py-2 ps-4 ">
+                            <h4 class="py-2 ps-4">Instructions:</h4>
+                            <p class="ps-4">
+                                <%= element.strInstructions %>
+                            </p>
 
                         </div>
-                        <%}); %>
-                
 
-                <% } %>
+                    </div>
 
+                    <%}); %>
+                        <% } else if (locals.coctailsFiltered) {%>
+                            <h4 class="my-4">Here are all the <%= filter %> coctails</h4>
+                            <div class="row .container-fluid">
+                            <% coctailsFiltered.forEach(element=> {%>
+                                
+                                    <div class="col-lg-4 col-md-6 col-xxl-3 text-center my-5">
+                                        
+                                            <img src="<%= element.strDrinkThumb%>" style="border-radius: 50%;" class=""
+                                                alt="<%= element.strDrink%>">
+                                            <div class="card-body ">
+                                                <h4 class="card-title my-2 coct-title">
+                                                    <%= element.strDrink%>
+                                                </h4>
+                                                <form action="/byId" method="post"> 
+
+                                                    <button type="submit" value="<%= element.idDrink%>" name="id" class="btn btn-sm btn-outline-secondary ">Go to the recipe</button>
+                                                    </form>
+                                                
+                                                
+                                            </div>
+                                        
+                                    </div>
+
+                                
+
+                                <% });%>
+</div>
+
+
+                                    <% }%>
     </div>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
+

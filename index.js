@@ -1,47 +1,62 @@
 import express from "express";
 import axios from "axios";
 import bodyParser from "body-parser";
-//import helper from "./helper";
+//import { checkCoctails, check, ingredients} from "./helper.js";
 const app = express();
 const port = 3000;
 var ingredients = [];
-
-
-
+var ingredientsGroup = [];
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.get("/", async (req, res) => {
+    
+    ingredients = [];
     try {
         const result = await axios.get('https://www.thecocktaildb.com/api/json/v1/1/random.php');
-
-        //console.log(result.data.drinks[0].strDrink);
-        //console.log(result.data.drinks[0].strCategory);
-        //console.log(result.data.drinks[0].strAlcoholic);
-        //console.log(result.data.drinks[0].strGlass);
-        //console.log(result.data.drinks[0].strInstructions);
-      ingredients = [];
         const re = result.data.drinks[0];
+
         checkCoctails(re);
 
         res.render("index.ejs", { re, ingredients, coctailsByName: false });
-
     } catch (error) {
+
         console.log(error.message);
-        //res.status(500);
+        res.status(500);
     }
 
 });
 
-app.post("/submit", async (req, res) => {
-    //console.log(req.body.searchName);
-    //const serchByName = req.body.searchName;
+app.post("/byName", async (req, res) => {
+  
     const result = await axios.post(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${req.body.searchName}`);
     const coctailsByName = result.data.drinks;
+    if(coctailsByName != null){
+        res.render("index.ejs", {re: null, coctailsByName, ingredients: null});
+    } else {
+        res.send("<h1 >Sorry, no such item with this name!</h1>");
     
+    }
+    
+});
+ 
+app.post("/filter", async (req, res) => {
+    const alc = req.body.check;
+    const result = await axios.post(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=${alc}`);
+    const coctailsFiltered = result.data.drinks;
+    //console.log(result.data.drinks.length);
+    //console.log(req.body)
 
-    //console.log(result.data.drinks);
-    res.render("index.ejs", {re: null, ingredients, coctailsByName})
+    res.render("index.ejs", {re: null, coctailsByName: null, ingredients: null, coctailsFiltered, filter: alc})
+});
+
+app.post("/byId", async (req, res) => {
+    ingredients = [];
+    const searchId = req.body.id;
+    const result = await axios.post(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${searchId}`);
+    const re = result.data.drinks[0];
+    checkCoctails(re);
+    res.render("index.ejs", {re: re , coctailsByName: null, ingredients, coctailsFiltered: null})
 })
 
 
@@ -64,6 +79,7 @@ function check(ingredient, measure) {
 }
 
 function checkCoctails(coctail) {
+    //ingredients = [];
     check(coctail.strIngredient1, coctail.strMeasure1);
     check(coctail.strIngredient2, coctail.strMeasure2);
     check(coctail.strIngredient3, coctail.strMeasure3);
@@ -81,3 +97,5 @@ function checkCoctails(coctail) {
     check(coctail.strIngredient15, coctail.strMeasure15);
 
 }
+
+
