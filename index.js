@@ -1,7 +1,7 @@
 import express from "express";
 import axios from "axios";
 import bodyParser from "body-parser";
-//import { checkCoctails, check, ingredients} from "./helper.js";
+//import { checkCocktails, check, ingredients} from "./helper.js";
 const app = express();
 const port = 3000;
 var ingredients = [];
@@ -16,9 +16,9 @@ app.get("/", async (req, res) => {
         const result = await axios.get('https://www.thecocktaildb.com/api/json/v1/1/random.php');
         const re = result.data.drinks[0];
 
-        checkCoctails(re);
+        checkCocktails(re);
 
-        res.render("index.ejs", { re, ingredients, coctailsByName: false });
+        res.render("index.ejs", { re, ingredients, cocktailsByName: false });
     } catch (error) {
 
         console.log(error.message);
@@ -30,9 +30,9 @@ app.get("/", async (req, res) => {
 app.post("/byName", async (req, res) => {
   
     const result = await axios.post(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${req.body.searchName}`);
-    const coctailsByName = result.data.drinks;
-    if(coctailsByName != null){
-        res.render("index.ejs", {re: null, coctailsByName, ingredients: null});
+    const cocktailsByName = result.data.drinks;
+    if(cocktailsByName != null){
+        res.render("index.ejs", {re: null, cocktailsByName, ingredients: null});
     } else {
         res.send("<h1 >Sorry, no such item with this name!</h1>");
     
@@ -43,11 +43,11 @@ app.post("/byName", async (req, res) => {
 app.post("/filter", async (req, res) => {
     const alc = req.body.check;
     const result = await axios.post(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=${alc}`);
-    const coctailsFiltered = result.data.drinks;
+    const cocktailsFiltered = result.data.drinks;
     //console.log(result.data.drinks.length);
     //console.log(req.body)
 
-    res.render("index.ejs", {re: null, coctailsByName: null, ingredients: null, coctailsFiltered, filter: alc})
+    res.render("index.ejs", {re: null, cocktailsByName: null, ingredients: null, cocktailsFiltered, filter: alc})
 });
 
 app.post("/byId", async (req, res) => {
@@ -55,8 +55,8 @@ app.post("/byId", async (req, res) => {
     const searchId = req.body.id;
     const result = await axios.post(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${searchId}`);
     const re = result.data.drinks[0];
-    checkCoctails(re);
-    res.render("index.ejs", {re: re , coctailsByName: null, ingredients, coctailsFiltered: null})
+    checkCocktails(re);
+    res.render("index.ejs", {re: re , cocktailsByName: null, ingredients, cocktailsFiltered: null})
 })
 
 
@@ -78,23 +78,23 @@ function check(ingredient, measure) {
     }
 }
 
-function checkCoctails(coctail) {
+function checkCocktails(cocktail) {
     //ingredients = [];
-    check(coctail.strIngredient1, coctail.strMeasure1);
-    check(coctail.strIngredient2, coctail.strMeasure2);
-    check(coctail.strIngredient3, coctail.strMeasure3);
-    check(coctail.strIngredient4, coctail.strMeasure4);
-    check(coctail.strIngredient5, coctail.strMeasure5);
-    check(coctail.strIngredient6, coctail.strMeasure6);
-    check(coctail.strIngredient7, coctail.strMeasure7);
-    check(coctail.strIngredient8, coctail.strMeasure8);
-    check(coctail.strIngredient9, coctail.strMeasure9);
-    check(coctail.strIngredient10, coctail.strMeasure10);
-    check(coctail.strIngredient11, coctail.strMeasure11);
-    check(coctail.strIngredient12, coctail.strMeasure12);
-    check(coctail.strIngredient13, coctail.strMeasure13);
-    check(coctail.strIngredient14, coctail.strMeasure14);
-    check(coctail.strIngredient15, coctail.strMeasure15);
+    check(cocktail.strIngredient1, cocktail.strMeasure1);
+    check(cocktail.strIngredient2, cocktail.strMeasure2);
+    check(cocktail.strIngredient3, cocktail.strMeasure3);
+    check(cocktail.strIngredient4, cocktail.strMeasure4);
+    check(cocktail.strIngredient5, cocktail.strMeasure5);
+    check(cocktail.strIngredient6, cocktail.strMeasure6);
+    check(cocktail.strIngredient7, cocktail.strMeasure7);
+    check(cocktail.strIngredient8, cocktail.strMeasure8);
+    check(cocktail.strIngredient9, cocktail.strMeasure9);
+    check(cocktail.strIngredient10, cocktail.strMeasure10);
+    check(cocktail.strIngredient11, cocktail.strMeasure11);
+    check(cocktail.strIngredient12, cocktail.strMeasure12);
+    check(cocktail.strIngredient13, cocktail.strMeasure13);
+    check(cocktail.strIngredient14, cocktail.strMeasure14);
+    check(cocktail.strIngredient15, cocktail.strMeasure15);
 
 }
 
