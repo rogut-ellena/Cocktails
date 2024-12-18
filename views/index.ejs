@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Coctails</title>
+    <title>Cocktails</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
@@ -26,7 +26,7 @@
             <div class="col-md-4">
                 <form class="d-inline-flex " action="/byName" method="post">
                     <input class="form-control mr-sm-2" type="text" name="searchName"
-                        placeholder="Find coctails by name" aria-label="Search">
+                        placeholder="Find cocktails by name" aria-label="Search">
                     <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>
@@ -70,7 +70,7 @@
     <div class="container ">
 
         <% if(locals.re){%>
-            <div class="container row border border-white card-coctail p-4">
+            <div class="container row border border-white card-cocktail p-4">
 
                 
                 <div class="col-lg-6">
@@ -101,10 +101,10 @@
 
             </div>
 
-            <%} else if (locals.coctailsByName) {%>
+            <%} else if (locals.cocktailsByName) {%>
 
-                <% coctailsByName.forEach(element=> {%>
-                    <div class="container card-coctail row border border-white p-5">
+                <% cocktailsByName.forEach(element=> {%>
+                    <div class="container card-cocktail row border border-white p-5">
 
 
                         <div col-12>
@@ -174,10 +174,10 @@
                     </div>
 
                     <%}); %>
-                        <% } else if (locals.coctailsFiltered) {%>
-                            <h4 class="my-4">Here are all the <%= filter %> coctails</h4>
+                        <% } else if (locals.cocktailsFiltered) {%>
+                            <h4 class="my-4">Here are all the <%= filter %> cocktails</h4>
                             <div class="row .container-fluid">
-                            <% coctailsFiltered.forEach(element=> {%>
+                            <% cocktailsFiltered.forEach(element=> {%>
                                 
                                     <div class="col-lg-4 col-md-6 col-xxl-3 text-center my-5">
                                         
